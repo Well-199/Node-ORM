@@ -36,7 +36,28 @@ const apiController = {
             txt: newPhrase.txt
         }
         
-        res.status(200).json({data: result})
+        res.status(201).json({data: result})
+    },
+
+    async listPhrases (req, res) {
+
+        const list = await Phrase.findAll()
+
+        res.status(200).json({data: list})
+    },
+
+    async getPhrase (req, res) {
+
+        let id = req.params.id
+
+        const phrase = await Phrase.findByPk(id)
+
+        if(phrase==null){
+            res.status(200).json({data: "Frase não existe/ou id invalido"})
+            return
+        }
+
+        res.status(200).json({data: phrase})
     }
 
 }
