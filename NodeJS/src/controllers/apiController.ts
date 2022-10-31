@@ -58,3 +58,29 @@ export const getPhrase = async (req: Request, res: Response) => {
 
     res.status(200).json({data: phrase})
 }
+
+export const updatePhrase = async (req: Request, res: Response) => {
+
+    let id = req.params.id
+    let author = req.body.author
+    let txt = req.body.txt
+
+    let phrase = await Phrase.findByPk(id)
+
+    if(phrase==null){
+        res.status(200).json({data: "Frase não existe/ou id invalido"})
+        return
+    }
+
+    if(author!==''){
+        phrase.author = author
+    }
+
+    if(txt!==''){
+        phrase.txt = txt
+    }
+
+    await phrase.save()
+
+    res.status(200).json({data: true})
+}

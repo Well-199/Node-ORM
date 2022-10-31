@@ -58,6 +58,33 @@ const apiController = {
         }
 
         res.status(200).json({data: phrase})
+    },
+
+    async updatePhrase (req, res) {
+        
+        let id = req.params.id
+        let author = req.body.author
+        let txt = req.body.txt
+
+        let phrase = await Phrase.findByPk(id)
+
+        if(phrase==null){
+            res.status(200).json({data: "Frase não existe/ou id invalido"})
+            return
+        }
+
+        if(author!==''){
+            phrase.author = author
+        }
+
+        if(txt!==''){
+            phrase.txt = txt
+        }
+
+        await phrase.save()
+
+        res.status(200).json({data: true})
+
     }
 
 }
